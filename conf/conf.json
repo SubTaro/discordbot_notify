@@ -1,0 +1,5 @@
+{
+	"Token": "Bot YOUR_TOKEN",
+	"BotName": "<@YOUR_CLIENT_ID>",
+	"ChannelID": "SEND_YOUR_MESSAGE_TO"
+}
