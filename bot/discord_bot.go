@@ -20,7 +20,6 @@ func Start_bot(config_file string, stop_bot chan bool, message chan string) {
 		log.Fatal(err)
 	}
 
-	defer bot.Close()
 	fmt.Println("Listening...")
 
 	for {
@@ -30,17 +29,9 @@ func Start_bot(config_file string, stop_bot chan bool, message chan string) {
 		}
 		bot.ChannelMessageSend(conf.ChannelID, msg)
 	}
+	bot.ChannelMessageSend(conf.ChannelID, "End")
+	stop_bot<-true
+	bot.Close()
 
-	if <-stop_bot{
-		return
-	}
-}
-
-func Send_message(s *discordgo.Session, channelID string, msg string) {
-	_, err := s.ChannelMessageSend(channelID, msg)
-
-	log.Println(">>> " + msg)
-	if err != nil {
-		log.Println("Sending Message Error: ", err)
-	}
+	return
 }

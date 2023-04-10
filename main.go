@@ -6,10 +6,14 @@ import (
 	"notify/pkg"
 	"os/exec"
 	"strings"
+	"flag"
 )
 
+
 func main() {
-	commands := pkg.ReadCommand("input.ntfy")
+	flag.Parse()
+	input_file := flag.Args()[0]
+	commands := pkg.ReadCommand(input_file)
 	stop_bot := make(chan bool)
 	message := make(chan string)
 
@@ -30,9 +34,11 @@ func main() {
 			message<-string(output)
 		}
 	}
-	stop_bot<-true
-
 	close(message)
+	if <-stop_bot{
+		fmt.Println("bot is stopped")
+	}
+
 	close(stop_bot)
 	
 	return
