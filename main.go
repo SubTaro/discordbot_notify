@@ -17,7 +17,7 @@ func main() {
 	stop_bot := make(chan bool)
 	message := make(chan string)
 
-	go bot.Start_bot("./conf/conf.json", stop_bot, message)
+	go bot.Start_bot("./conf/bot_conf.json", stop_bot, message)
 
 	//fmt.Println(commands)
 
@@ -27,11 +27,11 @@ func main() {
 		if len(split_command) > 2 {
 			output, err := exec.Command(split_command[0]).CombinedOutput()
 			fmt.Printf("result: %s\nerror: %v\n\n", output, err)
-			message<-string(output)
+			message<-"excuted"
 		}else {
 			output, err := exec.Command(split_command[0], split_command[1:]...).CombinedOutput()
 			fmt.Printf("result: %s\nerror: %v\n\n", output, err)
-			message<-string(output)
+			message<-"excuted"
 		}
 	}
 	close(message)
